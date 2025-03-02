@@ -208,24 +208,4 @@ This repository contains Packet Tracer files (`.pkt`) and design documents for C
 2.  **ファイルを開く:** Packet Tracer で対応する `.pkt` ファイルを開きます。
 3.  **設定の確認:** `show` コマンドを使用して、デバイス (ルーター、スイッチ) の設定を表示します。例: `show running-config`, `show ip interface brief`, `show vlan brief`, `show ip route` など。
 
-</details>
-
-# Image For LAB
-
-<details>
-  <summary>Cisco Security Project</summary>
-  ## IP devices :
-  ![image](https://github.com/user-attachments/assets/1b6e1513-b7c0-4b0a-91e6-418435017bf0)
-  ## Devices Connect:
-  ![image](https://github.com/user-attachments/assets/15e36e0e-6e64-4ef3-891d-56f691b0b61a)
-  ## Project's diagram (1):
-  ![image](https://github.com/user-attachments/assets/9fe3ce45-83df-4dc3-a590-fbb208c70d9f)
-  ## Project's diagram (2):
-  ![image](https://github.com/user-attachments/assets/4092779a-07a5-4a40-aeac-c41e88a3cc63)
-  ## Project's diagram (1):
-
-
-  
-
-</details>
 
