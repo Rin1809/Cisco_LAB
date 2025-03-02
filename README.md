@@ -8,65 +8,108 @@
 
 Repository này chứa các file cấu hình (packet tracer files - `.pkt`) và tài liệu thiết kế cho các bài lab mạng Cisco, bao gồm nhiều chủ đề như:
 
-*   **Cisco Security:** Các cấu hình liên quan đến bảo mật mạng Cisco (có thể là các bài lab về CCNA Security).
-*   **OSPF (Open Shortest Path First):** Cấu hình định tuyến OSPF cơ bản và nâng cao (với nhiều subnet).
+*   **Cisco Security:** Các cấu hình liên quan đến bảo mật mạng Cisco (CCNA Security).
+*   **OSPF (Open Shortest Path First):** Cấu hình định tuyến OSPF cơ bản và nâng cao (nhiều subnet).
 *   **RIP (Routing Information Protocol):** Cấu hình định tuyến RIP.
-*   **Switchport VLAN:** Cấu hình VLAN cơ bản và trunking trên switch.
-*   **VTP (VLAN Trunking Protocol):** Cấu hình VTP để quản lý VLAN tập trung.
-*   **Webserver and AP (Access Point):** Cấu hình tích hợp webserver và access point.
+*   **Switchport VLAN:** Cấu hình VLAN cơ bản và trunking.
+*   **VTP (VLAN Trunking Protocol):** Cấu hình VTP (quản lý VLAN tập trung).
+*   **Webserver and AP (Access Point):** Cấu hình webserver và access point.
+*   **SSH (Secure Shell):** Cấu hình SSH (truy cập/quản lý thiết bị từ xa, mã hóa).
+*   **Cân bằng tải (Load Balancing):** Cấu hình cân bằng tải (phân phối lưu lượng, tăng khả năng chịu tải).
+*   **Backup - Restore:** Cấu hình backup và restore cấu hình thiết bị.
+*   **RADIUS (Remote Authentication Dial-In User Service):** Cấu hình RADIUS server (xác thực/ủy quyền tập trung).
 
 ## Nội dung
 
-*   **`Cisco Security Project (CCNA).pkt`:**  File Packet Tracer chứa các cấu hình bảo mật Cisco (có thể liên quan đến CCNA Security).  Các lệnh cấu hình có thể bao gồm:
+*   **`Cisco Security Project (CCNA).pkt`:** File Packet Tracer chứa các cấu hình bảo mật Cisco. Các lệnh cấu hình có thể bao gồm:
     *   `username <username> privilege <level> secret <password>` (Tạo user)
     *   `enable secret <password>` (Đặt mật khẩu enable)
     *   `line vty 0 4`
-    *   `login local` (Yêu cầu đăng nhập bằng user local)
-    *   `transport input ssh` (Chỉ cho phép kết nối SSH)
+        *   `login local` (Yêu cầu đăng nhập bằng user local)
+        *   `transport input ssh` (Chỉ cho phép kết nối SSH)
     *   `ip access-list standard <acl-name>` (Tạo access list)
+        *   `permit <ip_address> <wildcard>`
+        * `deny any`
     *   `ip access-group <acl-name> in` (Áp dụng access list vào interface)
-    *   `service password-encryption`
-    *   `security passwords min-length <length>`
-    *	`login block-for <seconds> attempts <number> within <seconds>`
-  	*	`ip ssh version 2`
+    *   `service password-encryption` (Mã hoá mật khẩu)
+    *   `security passwords min-length <length>` (Độ dài tối thiểu mật khẩu)
+    *	`login block-for <seconds> attempts <number> within <seconds>` (Chống brute-force)
+    *	`ip ssh version 2` (Chỉ sử dụng SSH version 2)
+    * `crypto key generate rsa` (Tạo key RSA cho SSH, nên chỉ định `modulus <bitsize>`, ví dụ: `modulus 2048`)
+
 *   **`OSPF Routing Basic.pkt`:** Cấu hình OSPF cơ bản. Các lệnh:
     *   `router ospf <process-id>`
     *   `network <network-address> <wildcard-mask> area <area-id>`
     *   `show ip ospf neighbor` (Kiểm tra neighbor)
     *   `show ip route ospf` (Xem route OSPF)
-*   **`OSPF Routing With 18 Subnets.pkt`:** Cấu hình OSPF với nhiều subnet.  Các lệnh tương tự như trên, nhưng có thể có cấu hình area phức tạp hơn.
-*   **`Rip Routing With 22 Subnets.pkt`:** Cấu hình RIP với nhiều subnet.  Các lệnh:
+    *   `show ip ospf interface brief`
+
+*   **`OSPF Routing With 18 Subnets.pkt`:** Cấu hình OSPF với nhiều subnet.  Cấu hình area, redistribute, default route (nếu cần).
+
+*   **`Rip Routing With 22 Subnets.pkt`:** Cấu hình RIP với nhiều subnet.
     *   `router rip`
     *   `version 2`
-    *   `network <network-address>` (Chú ý: RIP sử dụng classful network address)
-    *   `no auto-summary` (Rất quan trọng khi dùng RIPv2)
-    *   `show ip route rip` (Xem route RIP)
-*   **`Swport Vlan Basic.pkt`:** Cấu hình VLAN cơ bản trên switch.  Các lệnh:
+    *   `network <network-address>` (classful network address)
+    *   `no auto-summary`
+    *   `show ip route rip`
+    * `passive-interface <interface>` (nếu không muốn gửi update qua interface nào đó)
+
+*   **`Swport Vlan Basic.pkt`:** Cấu hình VLAN cơ bản.
     *   `vlan <vlan-id>`
     *   `name <vlan-name>`
     *   `interface <interface-name>`
     *   `switchport mode access`
     *   `switchport access vlan <vlan-id>`
     *   `show vlan brief`
-*   **`Swport Vlan Trunking.pkt`:** Cấu hình trunking trên switch.  Các lệnh:
+
+*   **`Swport Vlan Trunking.pkt`:** Cấu hình trunking.
     *   `interface <interface-name>`
     *   `switchport mode trunk`
     *   `switchport trunk encapsulation dot1q`
-    *   `switchport trunk allowed vlan <vlan-list>`
+    *   `switchport trunk allowed vlan <vlan-list>` (hoặc `switchport trunk allowed vlan add/remove/except`)
     *   `show interfaces trunk`
-*   **`VLAN and Trunking With OSPF For 18 Subnets.pkt`:** Kết hợp cấu hình VLAN, trunking, và OSPF.
-*   **`VLAN Trunking with VTP - OSPF - Web and AP For 24 Subnets.pkt`:** Cấu hình toàn diện, bao gồm VLAN, trunking, VTP, OSPF, webserver, và access point.  Các lệnh bổ sung có thể bao gồm:
+
+*   **`VLAN and Trunking With OSPF For 18 Subnets.pkt`:** Kết hợp VLAN, trunking và OSPF.
+
+*   **`VLAN Trunking with VTP - OSPF - Web and AP For 24 Subnets.pkt`:** Cấu hình VLAN, trunking, VTP, OSPF, webserver và AP.
     *   `vtp mode {server | client | transparent}`
     *   `vtp domain <domain-name>`
     *   `vtp password <password>`
-    *   `ip address <ip-address> <subnet-mask>` (Cấu hình IP cho interface, webserver)
-    * Cấu hình DHCP pool, cấu hình WLC, và cấu hình AP (tùy thuộc vào mô phỏng).
+    *   `ip address <ip-address> <subnet-mask>` (cho interface, webserver)
+    *   Cấu hình DHCP (nếu cần).
+    * Cấu hình Wireless LAN Controller (WLC) và AP.
+
+* **`Load Balancing.pkt` (Ví dụ):** File này *có thể* chứa cấu hình cân bằng tải, tuy nhiên cần file cụ thể để biết chi tiết.  Cấu hình cân bằng tải phụ thuộc lớn vào thiết bị hoặc phần mềm được sử dụng. Ví dụ:
+    * **Trên Router Cisco (PBR - Policy-Based Routing):**
+        *  `route-map <map-name> permit 10`
+        *  `match ip address <access-list>`
+        *  `set ip next-hop <next-hop-1> <next-hop-2>`
+        *  `ip access-list extended <access-list>` (định nghĩa traffic cần cân bằng tải).
+        *  Áp dụng route-map vào interface: `ip policy route-map <map-name>`
+    * **Trên Load Balancer chuyên dụng/Phần mềm (HAProxy, Nginx):** Cấu hình sẽ rất khác, và thường được thực hiện thông qua file cấu hình riêng của phần mềm đó.
+
+* **`Backup_Restore.pkt` (Ví dụ):** File này *có thể* mô phỏng backup/restore.
+    *   **Backup:**  `copy running-config tftp` (hoặc `copy startup-config tftp`), sau đó nhập địa chỉ IP của TFTP server và tên file.
+    *   **Restore:** `copy tftp running-config` (hoặc `copy tftp startup-config`), sau đó nhập IP của TFTP server và tên file.
+    * Sử dụng máy chủ TFTP trong Packet Tracer.
+
+* **`RADIUS.pkt` (Ví dụ):** File này *có thể* mô phỏng RADIUS. Cần cài đặt RADIUS server (ví dụ, FreeRADIUS, hoặc sử dụng server có sẵn trong Packet Tracer), và cấu hình các thiết bị client để sử dụng RADIUS server đó:
+     *  **Trên Router/Switch (client):**
+        *   `radius server <server-name>`
+        *   `address ipv4 <server-ip>`
+        *   `key <shared-secret>`
+        *   `aaa new-model` (bật AAA)
+        *   `aaa authentication login default group radius local` (xác thực login bằng RADIUS, fallback về local)
+        *   `aaa authorization exec default group radius local` (ủy quyền exec bằng RADIUS)
+        * `line vty 0 4`
+        *   `login authentication default`
+     * **Trên RADIUS Server:** Cấu hình user, password, client (với shared secret).
 
 ## Hướng dẫn
 
-1.  **Cài đặt Cisco Packet Tracer:** Bạn cần cài đặt Cisco Packet Tracer để mở và xem các file `.pkt`.
-2.  **Mở file:** Mở file `.pkt` tương ứng trong Packet Tracer.
-3.  **Khám phá cấu hình:** Sử dụng các lệnh `show` để xem cấu hình của các thiết bị (router, switch).  Ví dụ: `show running-config`, `show ip interface brief`, `show vlan brief`, `show ip route`, v.v.
+1.  **Cài đặt Cisco Packet Tracer:** Cài đặt Cisco Packet Tracer.
+2.  **Mở file:** Mở file `.pkt` tương ứng.
+3.  **Khám phá:** Dùng các lệnh `show` (ví dụ: `show running-config`, `show ip interface brief`, `show vlan brief`, `show ip route`).
 
 </details>
 
@@ -78,65 +121,108 @@ Repository này chứa các file cấu hình (packet tracer files - `.pkt`) và 
 
 This repository contains Packet Tracer files (`.pkt`) and design documents for Cisco network labs, covering various topics such as:
 
-*   **Cisco Security:** Configurations related to Cisco network security (possibly CCNA Security labs).
-*   **OSPF (Open Shortest Path First):** Basic and advanced OSPF routing configurations (with multiple subnets).
+*   **Cisco Security:** Cisco network security configurations (CCNA Security).
+*   **OSPF (Open Shortest Path First):** Basic and advanced OSPF routing.
 *   **RIP (Routing Information Protocol):** RIP routing configuration.
-*   **Switchport VLAN:** Basic VLAN and trunking configurations on switches.
-*   **VTP (VLAN Trunking Protocol):** VTP configuration for centralized VLAN management.
-*   **Webserver and AP (Access Point):** Integrated webserver and access point configuration.
+*   **Switchport VLAN:** Basic VLAN and trunking configurations.
+*   **VTP (VLAN Trunking Protocol):** VTP configuration.
+*   **Webserver and AP (Access Point):** Webserver and access point configuration.
+*   **SSH (Secure Shell):**  SSH configuration (remote access/management, encryption).
+*   **Load Balancing:** Load balancing configuration (traffic distribution, increased availability).
+*   **Backup - Restore:** Device configuration backup and restore.
+*   **RADIUS (Remote Authentication Dial-In User Service):** RADIUS server configuration (centralized authentication/authorization).
 
 ## Contents
 
-*   **`Cisco Security Project (CCNA).pkt`:**  Packet Tracer file containing Cisco security configurations (potentially related to CCNA Security).  Possible commands include:
+*   **`Cisco Security Project (CCNA).pkt`:** Packet Tracer file with Cisco security configs.  Possible commands:
     *   `username <username> privilege <level> secret <password>`
     *   `enable secret <password>`
     *   `line vty 0 4`
-    *   `login local`
-    *   `transport input ssh`
+        *   `login local`
+        *   `transport input ssh`
     *   `ip access-list standard <acl-name>`
+        *   `permit <ip_address> <wildcard>`
+        *   `deny any`
     *   `ip access-group <acl-name> in`
     *   `service password-encryption`
     *   `security passwords min-length <length>`
-    * `login block-for <seconds> attempts <number> within <seconds>`
-    * `ip ssh version 2`
+    *	`login block-for <seconds> attempts <number> within <seconds>`
+    *	`ip ssh version 2`
+    *   `crypto key generate rsa` (Generate RSA key for SSH; consider specifying `modulus <bitsize>`, e.g., `modulus 2048`)
+
 *   **`OSPF Routing Basic.pkt`:** Basic OSPF configuration. Commands:
     *   `router ospf <process-id>`
     *   `network <network-address> <wildcard-mask> area <area-id>`
     *   `show ip ospf neighbor`
     *   `show ip route ospf`
-*   **`OSPF Routing With 18 Subnets.pkt`:** OSPF configuration with multiple subnets. Similar commands as above, but may involve more complex area configurations.
-*   **`Rip Routing With 22 Subnets.pkt`:** RIP configuration with multiple subnets. Commands:
+    *   `show ip ospf interface brief`
+
+*   **`OSPF Routing With 18 Subnets.pkt`:** OSPF with multiple subnets. Area configuration, redistribution, default route (if needed).
+
+*   **`Rip Routing With 22 Subnets.pkt`:** RIP with multiple subnets.
     *   `router rip`
     *   `version 2`
-    *   `network <network-address>` (Note: RIP uses classful network addresses)
-    *   `no auto-summary` (Crucial when using RIPv2)
+    *   `network <network-address>` (classful)
+    *   `no auto-summary`
     *   `show ip route rip`
-*   **`Swport Vlan Basic.pkt`:** Basic VLAN configuration on a switch. Commands:
+    *   `passive-interface <interface>`
+
+*   **`Swport Vlan Basic.pkt`:** Basic VLAN configuration.
     *   `vlan <vlan-id>`
     *   `name <vlan-name>`
     *   `interface <interface-name>`
     *   `switchport mode access`
     *   `switchport access vlan <vlan-id>`
-    * `show vlan brief`
-*   **`Swport Vlan Trunking.pkt`:** Trunking configuration on a switch.  Commands:
+    *  `show vlan brief`
+
+*   **`Swport Vlan Trunking.pkt`:** Trunking configuration.
     *   `interface <interface-name>`
     *   `switchport mode trunk`
     *   `switchport trunk encapsulation dot1q`
     *   `switchport trunk allowed vlan <vlan-list>`
     *   `show interfaces trunk`
-*   **`VLAN and Trunking With OSPF For 18 Subnets.pkt`:** Combines VLAN, trunking, and OSPF configurations.
-*   **`VLAN Trunking with VTP - OSPF - Web and AP For 24 Subnets.pkt`:** Comprehensive configuration, including VLAN, trunking, VTP, OSPF, webserver, and access point.  Additional commands may include:
+
+*   **`VLAN and Trunking With OSPF For 18 Subnets.pkt`:** Combines VLAN, trunking, and OSPF.
+
+*   **`VLAN Trunking with VTP - OSPF - Web and AP For 24 Subnets.pkt`:** VLAN, trunking, VTP, OSPF, webserver, and AP.
     *   `vtp mode {server | client | transparent}`
     *   `vtp domain <domain-name>`
     *   `vtp password <password>`
-    *   `ip address <ip-address> <subnet-mask>` (IP configuration for interfaces, webserver)
-    *  DHCP pool configuration, WLC configuration, and AP configuration (depending on the simulation).
+    *   `ip address <ip-address> <subnet-mask>` (for interfaces, webserver)
+    *   DHCP configuration (if needed).
+    *  Wireless LAN Controller (WLC) and AP configuration.
+
+*   **`Load Balancing.pkt` (Example):** *Could* contain load balancing, but specific file is needed for details.  Highly dependent on the device/software.  Examples:
+    *   **Cisco Router (PBR):**
+        *   `route-map <map-name> permit 10`
+        *   `match ip address <access-list>`
+        *   `set ip next-hop <next-hop-1> <next-hop-2>`
+        *   `ip access-list extended <access-list>` (define traffic to load balance).
+        *   Apply route-map to interface: `ip policy route-map <map-name>`
+    *   **Dedicated Load Balancer/Software (HAProxy, Nginx):** Configuration is very different, typically in a separate configuration file.
+
+*   **`Backup_Restore.pkt` (Example):** *Could* simulate backup/restore.
+    *   **Backup:** `copy running-config tftp` (or `copy startup-config tftp`), enter TFTP server IP and filename.
+    *   **Restore:** `copy tftp running-config` (or `copy tftp startup-config`), enter TFTP server IP and filename.
+    *   Use a TFTP server in Packet Tracer.
+
+*   **`RADIUS.pkt` (Example):** *Could* simulate RADIUS.  Requires RADIUS server setup (e.g., FreeRADIUS, or use Packet Tracer's built-in server), and client device configuration:
+    *   **On Router/Switch (client):**
+        *   `radius server <server-name>`
+        *   `address ipv4 <server-ip>`
+        *   `key <shared-secret>`
+        *   `aaa new-model`
+        *   `aaa authentication login default group radius local`
+        *   `aaa authorization exec default group radius local`
+        *   `line vty 0 4`
+        *    `login authentication default`
+    *   **On RADIUS Server:** Configure users, passwords, clients (with shared secret).
 
 ## Instructions
 
-1.  **Install Cisco Packet Tracer:** You need to install Cisco Packet Tracer to open and view the `.pkt` files.
-2.  **Open the file:** Open the corresponding `.pkt` file in Packet Tracer.
-3.  **Explore the configuration:** Use `show` commands to view the configuration of the devices (routers, switches).  For example: `show running-config`, `show ip interface brief`, `show vlan brief`, `show ip route`, etc.
+1.  **Install Cisco Packet Tracer:** Install Cisco Packet Tracer.
+2.  **Open File:** Open the relevant `.pkt` file.
+3.  **Explore:** Use `show` commands (e.g., `show running-config`, `show ip interface brief`, `show vlan brief`, `show ip route`).
 
 </details>
 
@@ -146,66 +232,110 @@ This repository contains Packet Tracer files (`.pkt`) and design documents for C
 
 ## 概要
 
-このリポジトリには、以下のようなさまざまなトピックをカバーする Cisco ネットワークラボ用の Packet Tracer ファイル (`.pkt`) と設計ドキュメントが含まれています。
+このリポジトリには、Cisco ネットワークラボ用の Packet Tracer ファイル (`.pkt`) と設計ドキュメントが含まれており、以下のようなさまざまなトピックをカバーしています。
 
-*   **Cisco Security:** Cisco ネットワークセキュリティに関連する設定 (CCNA Security ラボの可能性があります)。
-*   **OSPF (Open Shortest Path First):** 基本および高度な OSPF ルーティング設定 (複数のサブネットを使用)。
+*   **Cisco Security:** Cisco ネットワークセキュリティ設定 (CCNA Security)。
+*   **OSPF (Open Shortest Path First):** 基本および高度な OSPF ルーティング。
 *   **RIP (Routing Information Protocol):** RIP ルーティング設定。
-*   **Switchport VLAN:** スイッチ上の基本的な VLAN およびトランキング設定。
-*   **VTP (VLAN Trunking Protocol):** 一元化された VLAN 管理のための VTP 設定。
-*   **Webserver and AP (Access Point):** 統合された Web サーバーとアクセスポイントの設定。
+*   **Switchport VLAN:** 基本的な VLAN とトランキング設定。
+*   **VTP (VLAN Trunking Protocol):** VTP 設定。
+*   **Webserver and AP (Access Point):** Web サーバーとアクセスポイントの設定。
+*   **SSH (Secure Shell):** SSH 設定 (リモートアクセス/管理、暗号化)。
+*   **ロードバランシング (Load Balancing):** ロードバランシング設定 (トラフィック分散、可用性向上)。
+*   **バックアップ/リストア (Backup - Restore):** デバイス設定のバックアップとリストア。
+*   **RADIUS (Remote Authentication Dial-In User Service):** RADIUS サーバー設定 (集中認証/認可)。
 
 ## 内容
 
-*   **`Cisco Security Project (CCNA).pkt`:** Cisco セキュリティ設定を含む Packet Tracer ファイル (CCNA Security に関連する可能性があります)。考えられるコマンドは次のとおりです。
+*   **`Cisco Security Project (CCNA).pkt`:** Cisco セキュリティ設定を含む Packet Tracer ファイル。考えられるコマンド:
     *   `username <username> privilege <level> secret <password>`
     *   `enable secret <password>`
     *   `line vty 0 4`
-    *   `login local`
-    *   `transport input ssh`
+        *   `login local`
+        *   `transport input ssh`
     *   `ip access-list standard <acl-name>`
+        *  `permit <ip_address> <wildcard>`
+        * `deny any`
     *   `ip access-group <acl-name> in`
     *   `service password-encryption`
     *   `security passwords min-length <length>`
-    *   `login block-for <seconds> attempts <number> within <seconds>`
+    *	`login block-for <seconds> attempts <number> within <seconds>`
     *	`ip ssh version 2`
+    *   `crypto key generate rsa` (SSH 用の RSA キーを生成します。`modulus <bitsize>` (例: `modulus 2048`) の指定を検討してください)
+
 *   **`OSPF Routing Basic.pkt`:** 基本的な OSPF 設定。コマンド:
     *   `router ospf <process-id>`
     *   `network <network-address> <wildcard-mask> area <area-id>`
     *   `show ip ospf neighbor`
     *   `show ip route ospf`
-*   **`OSPF Routing With 18 Subnets.pkt`:** 複数のサブネットを使用した OSPF 設定。上記と同様のコマンドですが、より複雑なエリア設定が含まれる場合があります。
-*   **`Rip Routing With 22 Subnets.pkt`:** 複数のサブネットを使用した RIP 設定。コマンド:
+    *   `show ip ospf interface brief`
+
+*   **`OSPF Routing With 18 Subnets.pkt`:** 複数のサブネットを持つ OSPF。エリア設定、再配布、デフォルトルート (必要な場合)。
+
+*   **`Rip Routing With 22 Subnets.pkt`:** 複数のサブネットを持つ RIP。
     *   `router rip`
     *   `version 2`
-    *   `network <network-address>` (注: RIP はクラスフルネットワークアドレスを使用します)
-    *   `no auto-summary` (RIPv2 を使用する場合は重要)
+    *   `network <network-address>` (クラスフル)
+    *   `no auto-summary`
     *   `show ip route rip`
-*   **`Swport Vlan Basic.pkt`:** スイッチ上の基本的な VLAN 設定。コマンド:
+     *   `passive-interface <interface>`
+
+*   **`Swport Vlan Basic.pkt`:** 基本的な VLAN 設定。
     *   `vlan <vlan-id>`
     *   `name <vlan-name>`
     *   `interface <interface-name>`
     *   `switchport mode access`
     *   `switchport access vlan <vlan-id>`
     *   `show vlan brief`
-*   **`Swport Vlan Trunking.pkt`:** スイッチ上のトランキング設定。コマンド:
+
+*   **`Swport Vlan Trunking.pkt`:** トランキング設定。
     *   `interface <interface-name>`
     *   `switchport mode trunk`
     *   `switchport trunk encapsulation dot1q`
     *   `switchport trunk allowed vlan <vlan-list>`
     *   `show interfaces trunk`
-*   **`VLAN and Trunking With OSPF For 18 Subnets.pkt`:** VLAN、トランキング、および OSPF 設定を組み合わせたもの。
-*   **`VLAN Trunking with VTP - OSPF - Web and AP For 24 Subnets.pkt`:** VLAN、トランキング、VTP、OSPF、Web サーバー、およびアクセスポイントを含む包括的な設定。追加のコマンドには、次のものが含まれる場合があります。
+
+*   **`VLAN and Trunking With OSPF For 18 Subnets.pkt`:** VLAN、トランキング、OSPF を組み合わせたもの。
+
+*   **`VLAN Trunking with VTP - OSPF - Web and AP For 24 Subnets.pkt`:** VLAN、トランキング、VTP、OSPF、Web サーバー、AP。
     *   `vtp mode {server | client | transparent}`
     *   `vtp domain <domain-name>`
     *   `vtp password <password>`
-    *   `ip address <ip-address> <subnet-mask>` (インターフェイス、Web サーバーの IP 設定)
-    *   DHCP プール設定、WLC 設定、および AP 設定 (シミュレーションによって異なります)。
+    *   `ip address <ip-address> <subnet-mask>` (インターフェイス、Web サーバー用)
+    *   DHCP 設定 (必要な場合)。
+    *   ワイヤレス LAN コントローラー (WLC) と AP の設定。
+
+*   **`Load Balancing.pkt` (例):** ロードバランシングが含まれている*可能性*がありますが、詳細については特定のファイルが必要です。デバイス/ソフトウェアに大きく依存します。例:
+    *   **Cisco ルーター (PBR):**
+        *   `route-map <map-name> permit 10`
+        *   `match ip address <access-list>`
+        *   `set ip next-hop <next-hop-1> <next-hop-2>`
+        *   `ip access-list extended <access-list>` (ロードバランシングするトラフィックを定義)。
+        *   インターフェイスにルートマップを適用: `ip policy route-map <map-name>`
+    *   **専用ロードバランサー/ソフトウェア (HAProxy、Nginx):** 設定は大きく異なり、通常は別の設定ファイルで行われます。
+
+*   **`Backup_Restore.pkt` (例):** バックアップ/リストアをシミュレートしている*可能性*があります。
+    *   **バックアップ:** `copy running-config tftp` (または `copy startup-config tftp`)、TFTP サーバーの IP とファイル名を入力。
+    *   **リストア:** `copy tftp running-config` (または `copy tftp startup-config`)、TFTP サーバーの IP とファイル名を入力。
+    *   Packet Tracer で TFTP サーバーを使用します。
+
+*   **`RADIUS.pkt` (例):** RADIUS をシミュレートしている*可能性*があります。RADIUS サーバーのセットアップ (例: FreeRADIUS、または Packet Tracer の組み込みサーバーを使用) と、クライアントデバイスの設定が必要です。
+    *   **ルーター/スイッチ (クライアント) 上:**
+        *   `radius server <server-name>`
+        *   `address ipv4 <server-ip>`
+        *   `key <shared-secret>`
+        *   `aaa new-model`
+        *   `aaa authentication login default group radius local`
+        * `aaa authorization exec default group radius local`
+        * `line vty 0 4`
+        * `login authentication default`
+
+    *   **RADIUS サーバー上:** ユーザー、パスワード、クライアント (共有秘密を使用) を設定します。
 
 ## 説明書
 
-1.  **Cisco Packet Tracer のインストール:** `.pkt` ファイルを開いて表示するには、Cisco Packet Tracer をインストールする必要があります。
-2.  **ファイルを開く:** Packet Tracer で対応する `.pkt` ファイルを開きます。
-3.  **設定の確認:** `show` コマンドを使用して、デバイス (ルーター、スイッチ) の設定を表示します。例: `show running-config`, `show ip interface brief`, `show vlan brief`, `show ip route` など。
+1.  **Cisco Packet Tracer のインストール:** Cisco Packet Tracer をインストールします。
+2.  **ファイルを開く:** 関連する `.pkt` ファイルを開きます。
+3.  **確認:** `show` コマンド (例: `show running-config`, `show ip interface brief`, `show vlan brief`, `show ip route`) を使用します。
 
-
+</details>
