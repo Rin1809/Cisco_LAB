@@ -349,7 +349,6 @@ This repository contains Packet Tracer files (`.pkt`) and design documents for C
 
 # Picture 1
 ![image](https://github.com/user-attachments/assets/05e84cb1-5fb4-4f66-b3a0-8b463bec4d99)
-# Picture 2
 ![image](https://github.com/user-attachments/assets/2751b086-66d1-4640-ad0f-8a34fe6bda64)
 
 </details>
