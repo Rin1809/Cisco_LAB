@@ -24,7 +24,7 @@ Repository này chứa các file cấu hình (packet tracer files - `.pkt`) và 
 *   **Webserver and AP (Access Point):** Cấu hình webserver và access point.
 *   **SSH (Secure Shell):** Cấu hình SSH (truy cập/quản lý thiết bị từ xa, mã hóa).
 *   **HSRP - Cân bằng tải (Load Balancing):** Cấu hình cân bằng tải (phân phối lưu lượng, tăng khả năng chịu tải).
-*   **Backup - Restore:** Cấu hình backup và restore cấu hình thiết bị.
+*   **TFTP - Backup & Restore:** Cấu hình backup và restore cấu hình thiết bị.
 *   **RADIUS (Remote Authentication Dial-In User Service):** Cấu hình RADIUS server (xác thực/ủy quyền tập trung).
 
 ## Nội dung
