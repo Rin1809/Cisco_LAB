@@ -136,8 +136,8 @@ This repository contains Packet Tracer files (`.pkt`) and design documents for C
 *   **VTP (VLAN Trunking Protocol):** VTP configuration.
 *   **Webserver and AP (Access Point):** Webserver and access point configuration.
 *   **SSH (Secure Shell):**  SSH configuration (remote access/management, encryption).
-*   **Load Balancing:** Load balancing configuration (traffic distribution, increased availability).
-*   **Backup - Restore:** Device configuration backup and restore.
+*   **HSRP - Load Balancing:** Load balancing configuration (traffic distribution, increased availability).
+*   **TFTP - Backup & Restore:** Device configuration backup and restore.
 *   **RADIUS (Remote Authentication Dial-In User Service):** RADIUS server configuration (centralized authentication/authorization).
 
 ## Contents
@@ -249,8 +249,8 @@ This repository contains Packet Tracer files (`.pkt`) and design documents for C
 *   **VTP (VLAN Trunking Protocol):** VTP 設定。
 *   **Webserver and AP (Access Point):** Web サーバーとアクセスポイントの設定。
 *   **SSH (Secure Shell):** SSH 設定 (リモートアクセス/管理、暗号化)。
-*   **ロードバランシング (Load Balancing):** ロードバランシング設定 (トラフィック分散、可用性向上)。
-*   **バックアップ/リストア (Backup - Restore):** デバイス設定のバックアップとリストア。
+*   **HSRP - ロードバランシング (Load Balancing):** ロードバランシング設定 (トラフィック分散、可用性向上)。
+*   **TFTP - バックアップ/リストア (Backup & Restore):** デバイス設定のバックアップとリストア。
 *   **RADIUS (Remote Authentication Dial-In User Service):** RADIUS サーバー設定 (集中認証/認可)。
 
 ## 内容
