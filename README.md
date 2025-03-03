@@ -7,9 +7,7 @@
 
 <!-- Vietnamese -->
 <details>
-  <summary>
-    <span style="color: #FFC0CB;">🇻🇳 Tiếng Việt</span>
-  </summary>
+  <summary><h2>🇻🇳 Tiếng Việt</h2></summary>
 
 ## Giới thiệu
 
@@ -122,7 +120,7 @@ Repository này chứa các file cấu hình (packet tracer files - `.pkt`) và 
 
 <!-- English -->
 <details>
-  <summary>🇬🇧 English</summary>
+  <summary><h2>🇬🇧 English</h2></summary>
 
 ## Introduction
 
@@ -235,7 +233,7 @@ This repository contains Packet Tracer files (`.pkt`) and design documents for C
 
 <!-- Japanese -->
 <details>
-  <summary>🇯🇵 日本語</summary>
+  <summary><h2>🇯🇵 日本語</h2></summary>
 
 ## 概要
 
