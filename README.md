@@ -8,7 +8,7 @@
   <summary><h2>Introduction</h2></summary>
 
   <details>
-    <summary>🇻🇳 Tiếng Việt</summary>
+    <summary><span style="color: #FF69B4;">🇻🇳 Tiếng Việt</span></summary>
 
     ## Giới thiệu
 
@@ -120,7 +120,7 @@
   </details>
 
   <details>
-    <summary>🇬🇧 English</summary>
+    <summary><span style="color: #FF69B4;">🇬🇧 English</span></summary>
 
     ## Introduction
 
@@ -232,7 +232,7 @@
   </details>
 
   <details>
-    <summary>🇯🇵 日本語</summary>
+    <summary><span style="color: #FF69B4;">🇯🇵 日本語</span></summary>
 
     ## 概要
 
