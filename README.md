@@ -355,12 +355,100 @@ This repository contains Packet Tracer files (`.pkt`) and design documents for C
 
 
 <details>
-  <summary>OSPF Routing Basic.pkt</summary>
+  <summary>AccessPoint - Static Routing on MuiltiSubnets.pkt</summary>
 
 # Picture 1
-![image](https://github.com/user-attachments/assets/8b07e47f-d5cf-4ecf-8cc9-806c894103b2)
+![image](https://github.com/user-attachments/assets/7a258009-aaad-4977-992e-156fa66aa62c)
 
 </details>
+
+
+
+<details>
+  <summary>Bigest Static Route With Server.pkt</summary>
+
+# Picture 1
+![image](https://github.com/user-attachments/assets/49b9257e-188a-4e19-a0a0-7941df129157)
+
+
+</details>
+
+
+
+<details>
+  <summary>Basic HSRP.pkt</summary>
+  
+# Picture 1
+![image](https://github.com/user-attachments/assets/e972c42a-1351-4832-b366-9fffa2277947)
+
+</details>
+
+
+
+<details>
+  <summary>HSRP - Ripv2 - Vlan trunking.pkt</summary>
+  
+# Picture 1
+![image](https://github.com/user-attachments/assets/3b436fcd-331a-42d7-ad03-ae243af08258)
+
+
+</details>
+
+
+<details>
+  <summary>HSRP - SSH - TFTP - VLAN Trunking.pkt</summary>
+  
+# Picture 1
+![image](https://github.com/user-attachments/assets/57740d96-85b6-4c8e-b6a4-60b1e257c9ba)
+
+</details>
+
+
+
+
+<details>
+  <summary>HSRP and OSPF - Ripv2 Routing with VlanTrunking .pkt</summary>
+  
+# Picture 1
+![image](https://github.com/user-attachments/assets/fb37eff0-3f1d-420b-ad6e-d5c2b95c692c)
+
+
+</details>
+
+
+
+<details>
+  <summary>SWLayer3 and SwithL3 - VTP.pkt</summary>
+  
+# Picture 1
+![image](https://github.com/user-attachments/assets/fe91f171-6e86-4f1f-b0d6-58e91af0d6d9)
+
+
+</details>
+
+
+<details>
+  <summary>Static Route.pkt</summary>
+  
+# Picture 1
+![image](https://github.com/user-attachments/assets/da5df2b3-7d5b-43e0-92b0-75ab53125463)
+
+
+
+</details>
+
+
+
+<details>
+  <summary>Static Route With 10 subnets.pkt</summary>
+  
+# Picture 1
+![image](https://github.com/user-attachments/assets/3799540e-536d-4b44-8a0f-f655fd99165e)
+
+
+</details>
+
+
 
 
 <details>
