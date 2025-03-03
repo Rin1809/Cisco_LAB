@@ -1,7 +1,9 @@
 # Cisco Lab Configurations and Network Designs ᓚᘏᗢ
 
 # Cisco model
-[Cisco Security Project (CCNA).docx](https://github.com/user-attachments/files/19053573/Cisco.Security.Project.CCNA.docx)
+
+[Cisco Security Project (CCNA).pdf](https://github.com/user-attachments/files/19056685/Cisco.Security.Project.CCNA.pdf)
+
 
 
 ![image](https://github.com/user-attachments/assets/cdbd3e4b-6d1f-4ee6-9bca-18710c01608a)
