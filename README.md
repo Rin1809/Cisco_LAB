@@ -1,5 +1,9 @@
 # Cisco Lab Configurations and Network Designs ᓚᘏᗢ
 
+# Cisco model
+![image](https://github.com/user-attachments/assets/cdbd3e4b-6d1f-4ee6-9bca-18710c01608a)
+
+
 <!-- Vietnamese -->
 <details>
   <summary>🇻🇳 Tiếng Việt</summary>
@@ -339,3 +343,83 @@ This repository contains Packet Tracer files (`.pkt`) and design documents for C
 3.  **確認:** `show` コマンド (例: `show running-config`, `show ip interface brief`, `show vlan brief`, `show ip route`) を使用します。
 
 </details>
+
+<details>
+  <summary>Cisco Security Project (CCNA).pkt</summary>
+
+# Picture 1
+![image](https://github.com/user-attachments/assets/05e84cb1-5fb4-4f66-b3a0-8b463bec4d99)
+# Picture 2
+![image](https://github.com/user-attachments/assets/2751b086-66d1-4640-ad0f-8a34fe6bda64)
+
+</details>
+
+
+<details>
+  <summary>OSPF Routing Basic.pkt</summary>
+
+# Picture 1
+![image](https://github.com/user-attachments/assets/8b07e47f-d5cf-4ecf-8cc9-806c894103b2)
+
+</details>
+
+
+<details>
+  <summary>OSPF Routing With 18 Subnets.pkt</summary>
+
+# Picture 1
+![image](https://github.com/user-attachments/assets/0b2b5ba7-dc11-49ef-ae30-32e39b633ed2)
+
+</details>
+
+
+<details>
+  <summary>Rip Routing With 22 Subnets.pkt</summary>
+
+# Picture 1
+![image](https://github.com/user-attachments/assets/3254187c-f694-43d7-99bc-886acc9dd64b)
+
+</details>
+
+
+
+<details>
+  <summary>Swport Vlan Basic.pkt</summary>
+
+# Picture 1
+![image](https://github.com/user-attachments/assets/3c55d47d-b7ca-4706-8ec5-5497a660a91e)
+
+</details>
+
+
+
+<details>
+  <summary>Swport Vlan Trunking.pkt</summary>
+
+# Picture 1
+![image](https://github.com/user-attachments/assets/3c09b939-adf5-4f5e-8538-ffd8f2b6b20c)
+
+</details>
+
+
+<details>
+  <summary>VLAN Trunking with VTP - OSPF - Web and AP For 24 Subnets.pkt</summary>
+
+# Picture 1
+![image](https://github.com/user-attachments/assets/f25261ce-a2e4-4404-a72a-fc8964479c12)
+
+
+</details>
+
+
+<details>
+  <summary>VLAN and Trunking With OSPF For 18 Subnets.pkt</summary>
+
+# Picture 1
+![image](https://github.com/user-attachments/assets/3f867478-9133-47ba-8016-f617d09ee866)
+
+
+</details>
+
+
+
