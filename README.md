@@ -741,7 +741,7 @@ The final image shows a client device connected to the "tang1-WLAN" Wi-Fi networ
 ## Introduction
 <!-- Vietnamese -->
 <details>
-  <summary><h2>🇻🇳 Tiếng Việt</h2></summary>
+  <summary>🇻🇳 Tiếng Việt</summary>
 
 ## Giới thiệu
 
@@ -888,7 +888,7 @@ Repository này chứa các file cấu hình (packet tracer files - `.pkt`) và 
 
 <!-- English -->
 <details>
-  <summary><h2>🇬🇧 English</h2></summary>
+  <summary>🇬🇧 English</summary>
 
 ## Introduction
 
@@ -1034,7 +1034,7 @@ This repository contains Packet Tracer files (`.pkt`) and design documents for C
 
 <!-- Japanese -->
 <details>
-  <summary><h2>🇯🇵 日本語</h2></summary>
+  <summary>🇯🇵 日本語</summary>
 
 ## 概要
 
