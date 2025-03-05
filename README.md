@@ -6,36 +6,25 @@ I just want to show what i did and how to configurations and network designs on 
 
 This section outlines the objectives and design considerations for the ABC Company network project.
 
-## 3.1. Objectives:
 
-ABC Company has 7 departments requiring a robust and secure network infrastructure: Director's Office, Server Room, and Employee Offices from Floor 1 to Floor 4.
 
-**ABC Company's Network Requirements:**
+## 3.1. Diagram:
 
-This section details the specific functional and security requirements that the network design must address.
+![image](https://github.com/user-attachments/assets/cdbd3e4b-6d1f-4ee6-9bca-18710c01608a)
 
-*   **Wireless Connectivity:**  Providing Wi-Fi access across all departments is a primary requirement.
+**(Explanation of Network Diagram):**
 
-    *   **WPA2-PSK Security:** Implement the WPA2 Pre-Shared Key (PSK) protocol for Wi-Fi network security in all departments.  This is a standard and widely used security protocol for Wi-Fi networks, providing encryption and authentication.
-    *   **MAC Filtering for Director's Office:** Implement MAC address filtering on the Wireless Router in the Director's Office to restrict network access to only authorized devices. This adds a layer of access control based on device MAC addresses in the Director's Office for enhanced security.
-    *   **RADIUS Server for Centralized Wi-Fi Authentication:** Configure a RADIUS (Remote Authentication Dial-In User Service) server for centralized Wi-Fi user authentication and access control. This system should authenticate users based on individual accounts and allow for role-based access control, particularly for the Director's Office, which requires special privileges. RADIUS provides a centralized authentication mechanism for Wi-Fi users, improving security and management.
+The network diagram visually represents the physical and logical topology of the ABC Company network, complementing the IP Addressing Plan table. Key elements of the diagram are:
 
-*   **Wired Connectivity:**  Segmenting the wired network is crucial for security and management.
+*   **Network Segmentation:**  The diagram clearly depicts the VLAN segmentation, with different VLANs (VLAN 10, 20, 30, 40, 50, 60, 99) represented by distinct color-coded segments, highlighting the logical separation of departments and network functions.
+*   **Device Placement:** Devices are placed within their respective VLAN segments (Floor 1-4 switches in VLANs 10-40, Server Room devices in VLAN 50, Director's Office Wireless Router in VLAN 60, Management devices in VLAN 99), visually representing the physical location and logical network assignment of each device.
+*   **Interconnections:** Lines and labels clearly show the physical connections between devices, indicating the network cabling and link aggregation (EtherChannel) between Core Routers and Distribution Switches.
+*   **IP Addressing:** IP addresses for key interfaces (Core Routers VLAN interfaces, Server IPs, WLC IP, Wireless Router IP) are labeled on the diagram, linking the visual representation to the detailed IP Addressing Plan.
+*   **Redundancy:** The HSRP configuration is visually represented with two Core Routers connected, indicating the redundancy implemented for core routing functions.
 
-    *   **VLAN Segmentation by Department:**  Utilize VLANs (Virtual LANs) to segment the network by department. This enhances security by isolating network traffic within each department, improving network performance, and simplifying access management. VLAN segmentation is key for network security and management.
+The diagram, combined with the IP Addressing Plan, provides a comprehensive visual and tabular representation of the network design.
 
-*   **Redundancy and Stability:** Ensuring network uptime and resilience is critical for business operations.
 
-    *   **HSRP for Router Redundancy:** Configure HSRP (Hot Standby Router Protocol) on the Core Routers (Core-Server & Core2-Server). HSRP provides router redundancy, ensuring high availability for internet access by automatically failing over to a standby router in case of primary router failure. HSRP ensures router redundancy for high availability.
-    *   **EtherChannel for Link Aggregation:** Implement EtherChannel to aggregate multiple physical links between critical network devices (like Core Switches). EtherChannel increases bandwidth by combining links and provides link redundancy, ensuring network stability and higher throughput for critical connections. EtherChannel enhances bandwidth and link redundancy.
-
-*   **Scalability:** The network design must be adaptable to future growth and expansion.
-
-    *   **Flexible Network Model:** Design a network model that is easily scalable to accommodate additional devices, users, and departments in the future without significant redesign or disruption. Scalability is essential for future network growth.
-
-*   **Objective:** The overarching objective is to build a secure, stable, and efficient LAN system for ABC Company.
-
-    *   **Secure, Stable, and Efficient LAN:** The primary objective is to create a LAN that meets the internal connectivity and data sharing needs of ABC Company employees while ensuring security, stability, and efficient network operation. The network should be secure, stable, and efficient.
 
 ## 3.2. IP Addressing Plan:
 
@@ -86,20 +75,36 @@ This table provides a detailed overview of the IP addressing scheme for each dev
 
 This table is essential for understanding the network's IP addressing architecture, VLAN assignments, and device roles within the network.
 
-## 3.3. Diagram:
+## 3.3. Objectives:
 
-![image](https://github.com/user-attachments/assets/cdbd3e4b-6d1f-4ee6-9bca-18710c01608a)
+ABC Company has 7 departments requiring a robust and secure network infrastructure: Director's Office, Server Room, and Employee Offices from Floor 1 to Floor 4.
 
-**(Explanation of Network Diagram):**
+**ABC Company's Network Requirements:**
 
-The network diagram visually represents the physical and logical topology of the ABC Company network, complementing the IP Addressing Plan table. Key elements of the diagram are:
+This section details the specific functional and security requirements that the network design must address.
 
-*   **Network Segmentation:**  The diagram clearly depicts the VLAN segmentation, with different VLANs (VLAN 10, 20, 30, 40, 50, 60, 99) represented by distinct color-coded segments, highlighting the logical separation of departments and network functions.
-*   **Device Placement:** Devices are placed within their respective VLAN segments (Floor 1-4 switches in VLANs 10-40, Server Room devices in VLAN 50, Director's Office Wireless Router in VLAN 60, Management devices in VLAN 99), visually representing the physical location and logical network assignment of each device.
-*   **Interconnections:** Lines and labels clearly show the physical connections between devices, indicating the network cabling and link aggregation (EtherChannel) between Core Routers and Distribution Switches.
-*   **IP Addressing:** IP addresses for key interfaces (Core Routers VLAN interfaces, Server IPs, WLC IP, Wireless Router IP) are labeled on the diagram, linking the visual representation to the detailed IP Addressing Plan.
-*   **Redundancy:** The HSRP configuration is visually represented with two Core Routers connected, indicating the redundancy implemented for core routing functions.
+*   **Wireless Connectivity:**  Providing Wi-Fi access across all departments is a primary requirement.
 
+    *   **WPA2-PSK Security:** Implement the WPA2 Pre-Shared Key (PSK) protocol for Wi-Fi network security in all departments.  This is a standard and widely used security protocol for Wi-Fi networks, providing encryption and authentication.
+    *   **MAC Filtering for Director's Office:** Implement MAC address filtering on the Wireless Router in the Director's Office to restrict network access to only authorized devices. This adds a layer of access control based on device MAC addresses in the Director's Office for enhanced security.
+    *   **RADIUS Server for Centralized Wi-Fi Authentication:** Configure a RADIUS (Remote Authentication Dial-In User Service) server for centralized Wi-Fi user authentication and access control. This system should authenticate users based on individual accounts and allow for role-based access control, particularly for the Director's Office, which requires special privileges. RADIUS provides a centralized authentication mechanism for Wi-Fi users, improving security and management.
+
+*   **Wired Connectivity:**  Segmenting the wired network is crucial for security and management.
+
+    *   **VLAN Segmentation by Department:**  Utilize VLANs (Virtual LANs) to segment the network by department. This enhances security by isolating network traffic within each department, improving network performance, and simplifying access management. VLAN segmentation is key for network security and management.
+
+*   **Redundancy and Stability:** Ensuring network uptime and resilience is critical for business operations.
+
+    *   **HSRP for Router Redundancy:** Configure HSRP (Hot Standby Router Protocol) on the Core Routers (Core-Server & Core2-Server). HSRP provides router redundancy, ensuring high availability for internet access by automatically failing over to a standby router in case of primary router failure. HSRP ensures router redundancy for high availability.
+    *   **EtherChannel for Link Aggregation:** Implement EtherChannel to aggregate multiple physical links between critical network devices (like Core Switches). EtherChannel increases bandwidth by combining links and provides link redundancy, ensuring network stability and higher throughput for critical connections. EtherChannel enhances bandwidth and link redundancy.
+
+*   **Scalability:** The network design must be adaptable to future growth and expansion.
+
+    *   **Flexible Network Model:** Design a network model that is easily scalable to accommodate additional devices, users, and departments in the future without significant redesign or disruption. Scalability is essential for future network growth.
+
+*   **Objective:** The overarching objective is to build a secure, stable, and efficient LAN system for ABC Company.
+
+    *   **Secure, Stable, and Efficient LAN:** The primary objective is to create a LAN that meets the internal connectivity and data sharing needs of ABC Company employees while ensuring security, stability, and efficient network operation. The network should be secure, stable, and efficient.
 The diagram, combined with the IP Addressing Plan, provides a comprehensive visual and tabular representation of the network design.
 
 ## 3.4. Device Configuration:
