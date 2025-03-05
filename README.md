@@ -1,7 +1,7 @@
 # Cisco Lab Configurations and Network Designs ᓚᘏᗢ
 
 <details>
-  <summary>Cisco Security Project (CCNA).pkt - Detailed Configuration Breakdown</summary>
+  <summary><h3>Cisco Security Project (CCNA).pkt - Detailed Configuration Breakdown</h3></summary>
 
 # ANALYSIS - DESIGN AND IMPLEMENTATION
 
@@ -739,7 +739,7 @@ The final image shows a client device connected to the "tang1-WLAN" Wi-Fi networ
 
 
 
-# Introduction
+## Introduction
 <!-- Vietnamese -->
 <details>
   <summary><h2>🇻🇳 Tiếng Việt</h2></summary>
@@ -1179,7 +1179,7 @@ This repository contains Packet Tracer files (`.pkt`) and design documents for C
 
 </details>
 
-# Another LAB
+## Another LAB
 
 <details>
   <summary>AccessPoint - Static Routing on MuiltiSubnets.pkt</summary>
