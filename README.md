@@ -1,9 +1,9 @@
 # Cisco Lab Configurations and Network Designs ᓚᘏᗢ
 
-<details>
-  <summary><h3>Cisco Security Project (CCNA).pkt - Detailed Configuration Breakdown</h3></summary>
 
-# ANALYSIS - DESIGN AND IMPLEMENTATION
+## Detailed Configuration Breakdown
+<details>
+  <summary><h3>Cisco Security Project (CCNA).pkt</h3></summary>
 
 This section outlines the objectives and design considerations for the ABC Company network project.
 
