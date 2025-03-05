@@ -1,9 +1,8 @@
-# Cisco Lab Configurations and Network Designs ᓚᘏᗢ
+# This repository, no coding. ᓚᘏᗢ
 
-
-## Detailed Configuration Breakdown
+I just want to show what i did and how to configurations and network designs on Cisco device. If care about it so expan it down
 <details>
-  <summary><h3>Cisco Security Project (CCNA).pkt</h3></summary>
+  <summary><h3>Cisco Security Project (CCNA).pkt - Detailed Configuration Breakdown</h3></summary>
 
 This section outlines the objectives and design considerations for the ABC Company network project.
 
