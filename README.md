@@ -25,7 +25,8 @@ Repository này chứa các file cấu hình (packet tracer files - `.pkt`) và 
 *   **VTP (VLAN Trunking Protocol):** Cấu hình VTP (quản lý VLAN tập trung).
 *   **Webserver and AP (Access Point):** Cấu hình webserver và access point.
 *   **SSH (Secure Shell):** Cấu hình SSH (truy cập/quản lý thiết bị từ xa, mã hóa).
-*   **HSRP - Cân bằng tải (Load Balancing):** Cấu hình cân bằng tải (phân phối lưu lượng, tăng khả năng chịu tải).
+*   **HSRP (Hot Standby Router Protocol):** Cấu hình dự phòng gateway, tăng tính sẵn sàng của mạng.
+*   **Load Balancing:** Cấu hình cân bằng tải (phân phối lưu lượng, tăng khả năng chịu tải).
 *   **TFTP - Backup & Restore:** Cấu hình backup và restore cấu hình thiết bị.
 *   **RADIUS (Remote Authentication Dial-In User Service):** Cấu hình RADIUS server (xác thực/ủy quyền tập trung).
 
@@ -89,7 +90,18 @@ Repository này chứa các file cấu hình (packet tracer files - `.pkt`) và 
     *   Cấu hình DHCP (nếu cần).
     * Cấu hình Wireless LAN Controller (WLC) và AP.
 
-* **`Load Balancing.pkt` (Ví dụ):** File này *có thể* chứa cấu hình cân bằng tải, tuy nhiên cần file cụ thể để biết chi tiết.  Cấu hình cân bằng tải phụ thuộc lớn vào thiết bị hoặc phần mềm được sử dụng. Ví dụ:
+*   **`HSRP.pkt` (Ví dụ):** File này mô phỏng cấu hình HSRP để cung cấp dự phòng gateway.
+    *   Trên Router chính (Active):
+        *   `interface <interface-name>`
+        *   `ip address <ip-address> <subnet-mask>`
+        *   `standby <group-number> ip <virtual-ip-address>`
+        *   `standby <group-number> priority <priority-value>` (Cao hơn trên router chính)
+        *   `standby <group-number> preempt` (Cho phép router ưu tiên cao hơn chiếm quyền)
+        *   `standby <group-number> track <interface-name> [decrement-value]` (Giảm priority nếu interface bị down)
+    *   Trên Router dự phòng (Standby):  Tương tự như trên, nhưng `priority` thấp hơn.
+    *  Kiểm tra: `show standby`, `show standby brief`
+
+*   **`Load Balancing.pkt` (Ví dụ):** File này *có thể* chứa cấu hình cân bằng tải, tuy nhiên cần file cụ thể để biết chi tiết.  Cấu hình cân bằng tải phụ thuộc lớn vào thiết bị hoặc phần mềm được sử dụng. Ví dụ:
     * **Trên Router Cisco (PBR - Policy-Based Routing):**
         *  `route-map <map-name> permit 10`
         *  `match ip address <access-list>`
@@ -98,28 +110,50 @@ Repository này chứa các file cấu hình (packet tracer files - `.pkt`) và 
         *  Áp dụng route-map vào interface: `ip policy route-map <map-name>`
     * **Trên Load Balancer chuyên dụng/Phần mềm (HAProxy, Nginx):** Cấu hình sẽ rất khác, và thường được thực hiện thông qua file cấu hình riêng của phần mềm đó.
 
-* **`Backup_Restore.pkt` (Ví dụ):** File này *có thể* mô phỏng backup/restore.
-    *   **Backup:**  `copy running-config tftp` (hoặc `copy startup-config tftp`), sau đó nhập địa chỉ IP của TFTP server và tên file.
-    *   **Restore:** `copy tftp running-config` (hoặc `copy tftp startup-config`), sau đó nhập IP của TFTP server và tên file.
-    * Sử dụng máy chủ TFTP trong Packet Tracer.
+* **`Backup_Restore.pkt` (Ví dụ):** File này mô phỏng backup/restore cấu hình sử dụng TFTP.
+    *   **Bước 1: Cấu hình TFTP Server:**
+        *   Trong Packet Tracer, thêm một server và cấu hình dịch vụ TFTP (bật dịch vụ).
+        *   Gán địa chỉ IP cho server.
+    *   **Bước 2: Backup (Trên Router/Switch):**
+        *   `copy running-config tftp` (hoặc `copy startup-config tftp`)
+        *   `Address or name of remote host []?`  Nhập địa chỉ IP của TFTP server.
+        *   `Destination filename [router-config]?` Nhập tên file muốn lưu (hoặc nhấn Enter để dùng tên mặc định).
+    *   **Bước 3: Restore (Trên Router/Switch):**
+        *   `copy tftp running-config` (hoặc `copy tftp startup-config`)
+        *   `Address or name of remote host []?` Nhập địa chỉ IP của TFTP server.
+        *   `Source filename []?` Nhập tên file đã backup.
+        *   `Destination filename [running-config]?` (Nhấn Enter)
+        *   Xác nhận ghi đè cấu hình (nếu có).
+    *  **Lưu ý:**  Đảm bảo router/switch có thể "nhìn thấy" (ping được) TFTP server.
 
-* **`RADIUS.pkt` (Ví dụ):** File này *có thể* mô phỏng RADIUS. Cần cài đặt RADIUS server (ví dụ, FreeRADIUS, hoặc sử dụng server có sẵn trong Packet Tracer), và cấu hình các thiết bị client để sử dụng RADIUS server đó:
-     *  **Trên Router/Switch (client):**
-        *   `radius server <server-name>`
-        *   `address ipv4 <server-ip>`
-        *   `key <shared-secret>`
+* **`RADIUS.pkt` (Ví dụ):** File này mô phỏng xác thực RADIUS.
+    *   **Bước 1: Cấu hình RADIUS Server:**
+        *   Trong Packet Tracer, thêm một server, vào Services -> AAA.
+        *   Bật dịch vụ RADIUS.
+        *   Thêm Client:  `Client Name` (tên bất kỳ), `Client IP` (IP của router/switch), `Secret` (mật khẩu chung), `Server Type` (RADIUS).
+        *   Thêm User: `Username`, `Password`, các dịch vụ (ví dụ, bật `PAP` hoặc `CHAP`).
+    *   **Bước 2: Cấu hình Router/Switch (RADIUS Client):**
         *   `aaa new-model` (bật AAA)
-        *   `aaa authentication login default group radius local` (xác thực login bằng RADIUS, fallback về local)
-        *   `aaa authorization exec default group radius local` (ủy quyền exec bằng RADIUS)
-        * `line vty 0 4`
-        *   `login authentication default`
-     * **Trên RADIUS Server:** Cấu hình user, password, client (với shared secret).
+        *   `radius server <server-name>` (tên tự đặt)
+        *   `address ipv4 <server-ip>` (IP của RADIUS server)
+        *   `key <shared-secret>` (khớp với `Secret` trên server)
+        *   `aaa authentication login default group radius local` (xác thực login bằng RADIUS, nếu RADIUS down thì dùng user local)
+        *   `aaa authorization exec default group radius local` (ủy quyền các lệnh exec bằng RADIUS, fallback về local nếu RADIUS down)
+        *   `aaa authorization network default group radius` (ủy quyền các dịch vụ mạng khác - nếu cần).
+        *   `line vty 0 4`
+        *     `login authentication default`
+        *     `authorization exec default` (nếu muốn ủy quyền cả exec)
+    * **Bước 3: Kiểm tra**
+        * Thử truy cập vào router/switch bằng user đã cấu hình trên RADIUS server.
+        * `debug radius` (trên router/switch để xem quá trình xác thực).
+        * `show aaa servers`
 
 ## Hướng dẫn
 
 1.  **Cài đặt Cisco Packet Tracer:** Cài đặt Cisco Packet Tracer.
 2.  **Mở file:** Mở file `.pkt` tương ứng.
-3.  **Khám phá:** Dùng các lệnh `show` (ví dụ: `show running-config`, `show ip interface brief`, `show vlan brief`, `show ip route`).
+3.  **Khám phá:** Dùng các lệnh `show` (ví dụ: `show running-config`, `show ip interface brief`, `show vlan brief`, `show ip route`).  Chạy các lệnh `debug` để xem chi tiết quá trình (ví dụ: `debug ip ospf events`, `debug radius`).
+4.  **Thay đổi và Thử nghiệm:**  Thay đổi cấu hình, thêm/bớt thiết bị, và kiểm tra lại.
 
 </details>
 
@@ -138,7 +172,8 @@ This repository contains Packet Tracer files (`.pkt`) and design documents for C
 *   **VTP (VLAN Trunking Protocol):** VTP configuration.
 *   **Webserver and AP (Access Point):** Webserver and access point configuration.
 *   **SSH (Secure Shell):**  SSH configuration (remote access/management, encryption).
-*   **HSRP - Load Balancing:** Load balancing configuration (traffic distribution, increased availability).
+*   **HSRP (Hot Standby Router Protocol):** Gateway redundancy configuration, improving network availability.
+*   **Load Balancing:** Load balancing configuration (traffic distribution, increased availability).
 *   **TFTP - Backup & Restore:** Device configuration backup and restore.
 *   **RADIUS (Remote Authentication Dial-In User Service):** RADIUS server configuration (centralized authentication/authorization).
 
@@ -201,6 +236,16 @@ This repository contains Packet Tracer files (`.pkt`) and design documents for C
     *   `ip address <ip-address> <subnet-mask>` (for interfaces, webserver)
     *   DHCP configuration (if needed).
     *  Wireless LAN Controller (WLC) and AP configuration.
+*   **`HSRP.pkt` (Example):** This file simulates HSRP configuration to provide gateway redundancy.
+    *   On the primary (Active) router:
+        *   `interface <interface-name>`
+        *   `ip address <ip-address> <subnet-mask>`
+        *   `standby <group-number> ip <virtual-ip-address>`
+        *   `standby <group-number> priority <priority-value>` (Higher on the primary router)
+        *   `standby <group-number> preempt` (Allows higher priority router to take over)
+        *   `standby <group-number> track <interface-name> [decrement-value]` (Decrease priority if the interface goes down)
+    *   On the backup (Standby) router: Similar to above, but with a lower `priority`.
+    *   Verification: `show standby`, `show standby brief`
 
 *   **`Load Balancing.pkt` (Example):** *Could* contain load balancing, but specific file is needed for details.  Highly dependent on the device/software.  Examples:
     *   **Cisco Router (PBR):**
@@ -211,28 +256,50 @@ This repository contains Packet Tracer files (`.pkt`) and design documents for C
         *   Apply route-map to interface: `ip policy route-map <map-name>`
     *   **Dedicated Load Balancer/Software (HAProxy, Nginx):** Configuration is very different, typically in a separate configuration file.
 
-*   **`Backup_Restore.pkt` (Example):** *Could* simulate backup/restore.
-    *   **Backup:** `copy running-config tftp` (or `copy startup-config tftp`), enter TFTP server IP and filename.
-    *   **Restore:** `copy tftp running-config` (or `copy tftp startup-config`), enter TFTP server IP and filename.
-    *   Use a TFTP server in Packet Tracer.
+*   **`Backup_Restore.pkt` (Example):** Simulates configuration backup/restore using TFTP.
+    *   **Step 1: Configure TFTP Server:**
+        *   In Packet Tracer, add a server and configure the TFTP service (enable the service).
+        *   Assign an IP address to the server.
+    *   **Step 2: Backup (On Router/Switch):**
+        *   `copy running-config tftp` (or `copy startup-config tftp`)
+        *   `Address or name of remote host []?` Enter the IP address of the TFTP server.
+        *   `Destination filename [router-config]?` Enter the desired filename (or press Enter to use the default).
+    *   **Step 3: Restore (On Router/Switch):**
+        *   `copy tftp running-config` (or `copy tftp startup-config`)
+        *   `Address or name of remote host []?` Enter the IP address of the TFTP server.
+        *   `Source filename []?` Enter the name of the backed-up file.
+        *   `Destination filename [running-config]?` (Press Enter)
+        *   Confirm configuration overwrite (if prompted).
+    *   **Note:** Ensure the router/switch can reach (ping) the TFTP server.
 
-*   **`RADIUS.pkt` (Example):** *Could* simulate RADIUS.  Requires RADIUS server setup (e.g., FreeRADIUS, or use Packet Tracer's built-in server), and client device configuration:
-    *   **On Router/Switch (client):**
-        *   `radius server <server-name>`
-        *   `address ipv4 <server-ip>`
-        *   `key <shared-secret>`
-        *   `aaa new-model`
-        *   `aaa authentication login default group radius local`
-        *   `aaa authorization exec default group radius local`
+*   **`RADIUS.pkt` (Example):** Simulates RADIUS authentication.
+    *   **Step 1: Configure RADIUS Server:**
+        *   In Packet Tracer, add a server, go to Services -> AAA.
+        *   Enable the RADIUS service.
+        *   Add a Client: `Client Name` (any name), `Client IP` (router/switch IP), `Secret` (shared password), `Server Type` (RADIUS).
+        *   Add a User: `Username`, `Password`, services (e.g., enable `PAP` or `CHAP`).
+    *   **Step 2: Configure Router/Switch (RADIUS Client):**
+        *   `aaa new-model` (enable AAA)
+        *   `radius server <server-name>` (a name you choose)
+        *   `address ipv4 <server-ip>` (RADIUS server IP)
+        *   `key <shared-secret>` (matches the `Secret` on the server)
+        *   `aaa authentication login default group radius local` (authenticate logins using RADIUS, fallback to local if RADIUS is down)
+        *   `aaa authorization exec default group radius local` (authorize exec commands using RADIUS, fallback to local)
+        *    `aaa authorization network default group radius` (Authorize other network services - if needed).
         *   `line vty 0 4`
-        *    `login authentication default`
-    *   **On RADIUS Server:** Configure users, passwords, clients (with shared secret).
+        *     `login authentication default`
+        *     `authorization exec default`  (if you want to also authorize exec)
 
+    * **Step 3: Verification:**
+        *   Try to access the router/switch using the user configured on the RADIUS server.
+        *   `debug radius` (on the router/switch to see the authentication process).
+        *   `show aaa servers`
 ## Instructions
 
 1.  **Install Cisco Packet Tracer:** Install Cisco Packet Tracer.
 2.  **Open File:** Open the relevant `.pkt` file.
-3.  **Explore:** Use `show` commands (e.g., `show running-config`, `show ip interface brief`, `show vlan brief`, `show ip route`).
+3.  **Explore:** Use `show` commands (e.g., `show running-config`, `show ip interface brief`, `show vlan brief`, `show ip route`). Run `debug` commands to see detailed processes (e.g., `debug ip ospf events`, `debug radius`).
+4.  **Modify and Experiment:** Change configurations, add/remove devices, and re-test.
 
 </details>
 
@@ -251,7 +318,8 @@ This repository contains Packet Tracer files (`.pkt`) and design documents for C
 *   **VTP (VLAN Trunking Protocol):** VTP 設定。
 *   **Webserver and AP (Access Point):** Web サーバーとアクセスポイントの設定。
 *   **SSH (Secure Shell):** SSH 設定 (リモートアクセス/管理、暗号化)。
-*   **HSRP - ロードバランシング (Load Balancing):** ロードバランシング設定 (トラフィック分散、可用性向上)。
+*   **HSRP (Hot Standby Router Protocol):** ゲートウェイ冗長化設定により、ネットワークの可用性を向上させます。
+*   **Load Balancing:** ロードバランシング設定 (トラフィック分散、可用性向上)。
 *   **TFTP - バックアップ/リストア (Backup & Restore):** デバイス設定のバックアップとリストア。
 *   **RADIUS (Remote Authentication Dial-In User Service):** RADIUS サーバー設定 (集中認証/認可)。
 
@@ -315,6 +383,17 @@ This repository contains Packet Tracer files (`.pkt`) and design documents for C
     *   DHCP 設定 (必要な場合)。
     *   ワイヤレス LAN コントローラー (WLC) と AP の設定。
 
+*   **`HSRP.pkt` (例):** このファイルは、ゲートウェイの冗長性を提供するための HSRP 設定をシミュレートします。
+    *   プライマリ (アクティブ) ルーターの場合:
+        *   `interface <interface-name>`
+        *   `ip address <ip-address> <subnet-mask>`
+        *   `standby <group-number> ip <virtual-ip-address>`
+        *   `standby <group-number> priority <priority-value>` (プライマリルーターの方が高い)
+        *   `standby <group-number> preempt` (優先度の高いルーターが引き継ぐことを許可する)
+        *   `standby <group-number> track <interface-name> [decrement-value]` (インターフェースがダウンした場合に優先度を下げる)
+    *   バックアップ (スタンバイ) ルーターの場合: 上記と同様ですが、`priority` は低くなります。
+    *  確認： `show standby`、`show standby brief`
+
 *   **`Load Balancing.pkt` (例):** ロードバランシングが含まれている*可能性*がありますが、詳細については特定のファイルが必要です。デバイス/ソフトウェアに大きく依存します。例:
     *   **Cisco ルーター (PBR):**
         *   `route-map <map-name> permit 10`
@@ -324,32 +403,51 @@ This repository contains Packet Tracer files (`.pkt`) and design documents for C
         *   インターフェイスにルートマップを適用: `ip policy route-map <map-name>`
     *   **専用ロードバランサー/ソフトウェア (HAProxy、Nginx):** 設定は大きく異なり、通常は別の設定ファイルで行われます。
 
-*   **`Backup_Restore.pkt` (例):** バックアップ/リストアをシミュレートしている*可能性*があります。
-    *   **バックアップ:** `copy running-config tftp` (または `copy startup-config tftp`)、TFTP サーバーの IP とファイル名を入力。
-    *   **リストア:** `copy tftp running-config` (または `copy tftp startup-config`)、TFTP サーバーの IP とファイル名を入力。
-    *   Packet Tracer で TFTP サーバーを使用します。
+*   **`Backup_Restore.pkt` (例):** TFTP を使用した設定のバックアップ/リストアをシミュレートします。
+    *   **ステップ 1: TFTP サーバーの設定:**
+        *   Packet Tracer で、サーバーを追加し、TFTP サービスを設定します (サービスを有効にします)。
+        *   サーバーに IP アドレスを割り当てます。
+    *   **ステップ 2: バックアップ (ルーター/スイッチ上):**
+        *   `copy running-config tftp` (または `copy startup-config tftp`)
+        *   `Address or name of remote host []?` TFTP サーバーの IP アドレスを入力します。
+        *   `Destination filename [router-config]?` 目的のファイル名を入力します (または、Enter キーを押してデフォルトを使用します)。
+    *   **ステップ 3: リストア (ルーター/スイッチ上):**
+        *   `copy tftp running-config` (または `copy tftp startup-config`)
+        *   `Address or name of remote host []?` TFTP サーバーの IP アドレスを入力します。
+        *   `Source filename []?` バックアップされたファイルの名前を入力します。
+        *   `Destination filename [running-config]?` (Enter キーを押す)
+        *   設定の上書きを確認します (プロンプトが表示された場合)。
+    *   **注:** ルーター/スイッチが TFTP サーバーに到達できる (ping できる) ことを確認してください。
 
-*   **`RADIUS.pkt` (例):** RADIUS をシミュレートしている*可能性*があります。RADIUS サーバーのセットアップ (例: FreeRADIUS、または Packet Tracer の組み込みサーバーを使用) と、クライアントデバイスの設定が必要です。
-    *   **ルーター/スイッチ (クライアント) 上:**
-        *   `radius server <server-name>`
-        *   `address ipv4 <server-ip>`
-        *   `key <shared-secret>`
-        *   `aaa new-model`
-        *   `aaa authentication login default group radius local`
-        * `aaa authorization exec default group radius local`
-        * `line vty 0 4`
-        * `login authentication default`
-
-    *   **RADIUS サーバー上:** ユーザー、パスワード、クライアント (共有秘密を使用) を設定します。
-
+*   **`RADIUS.pkt` (例):** RADIUS 認証をシミュレートします。
+    *   **ステップ 1: RADIUS サーバーの設定:**
+        *   Packet Tracer でサーバーを追加し、[Services] -> [AAA] に移動します。
+        *   RADIUS サービスを有効にします。
+        *   クライアントを追加します: `Client Name` (任意の名前)、`Client IP` (ルーター/スイッチの IP)、`Secret` (共有パスワード)、`Server Type` (RADIUS)。
+        *   ユーザーを追加します: `Username`、`Password`、サービス (例: `PAP` または `CHAP` を有効にする)。
+    *   **ステップ 2: ルーター/スイッチ (RADIUS クライアント) の設定:**
+        *   `aaa new-model` (AAA を有効にする)
+        *   `radius server <server-name>` (自分で選択した名前)
+        *   `address ipv4 <server-ip>` (RADIUS サーバーの IP)
+        *   `key <shared-secret>` (サーバー上の `Secret` と一致する)
+        *   `aaa authentication login default group radius local` (RADIUS を使用してログインを認証し、RADIUS がダウンしている場合はローカルにフォールバックする)
+        *   `aaa authorization exec default group radius local`  (RADIUS を使用して exec コマンドを認証し、ローカルにフォールバックします)
+        *  `aaa authorization network default group radius` (他のネットワークサービスを認証します - 必要な場合)。
+        *   `line vty 0 4`
+        *     `login authentication default`
+        *     `authorization exec default` (exec も認証する場合)
+    * **ステップ 3: 確認:**
+        *    RADIUS サーバーで設定したユーザーを使用して、ルーター/スイッチにアクセスしてみてください。
+        *   `debug radius` (ルーター/スイッチ上で認証プロセスを確認する)。
+        *   `show aaa servers`
 ## 説明書
 
 1.  **Cisco Packet Tracer のインストール:** Cisco Packet Tracer をインストールします。
 2.  **ファイルを開く:** 関連する `.pkt` ファイルを開きます。
-3.  **確認:** `show` コマンド (例: `show running-config`, `show ip interface brief`, `show vlan brief`, `show ip route`) を使用します。
+3.  **確認:** `show` コマンド (例: `show running-config`, `show ip interface brief`, `show vlan brief`, `show ip route`) を使用します。  `debug` コマンドを実行して、詳細なプロセスを確認します (例: `debug ip ospf events`, `debug radius`)。
+4. **変更と実験:** 設定を変更したり、デバイスを追加/削除したり、再テストしたりします。
 
 </details>
-
 
 # LAB
 <details>
